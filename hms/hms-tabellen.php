@@ -29,10 +29,12 @@ function hms_show_ranking($args){
 	
 	$ranking = json_decode($response, true);
 	$ranks = $ranking['ranks'];
+	$highlightTeam = $ranking['team'];
 	
 	$html;
 	
-	$html .= '<table border=1>';
+	$html .= '<div style="overflow-x:auto;">';
+	$html .= '<table class="result-set hms-tabelle" cellspacin="0" cellpadding="0" border="0">';
 	$html .= '<thead>';
 	$html .= '<tr>';
 	$html .= '<th>Rang</th>';
@@ -48,7 +50,11 @@ function hms_show_ranking($args){
 	$html .= '</thead>';
 	
 	for ($i = 0; $i < sizeof($ranks); $i++) {
-		$html .= '<tr>';
+		if($ranks[$i]['team'] == $highlightTeam) {
+			$html .= '<tr class="hms-tabelle-highlight">';
+		} else {
+			$html .= '<tr>';	
+		}
 		$html .= '<td>'.$ranks[$i]['position']  .'</td>';
 		$html .= '<td>'.$ranks[$i]['team']  .'</td>';
 		$html .= '<td>'.$ranks[$i]['gamesPlayed']  .'</td>';
@@ -62,6 +68,8 @@ function hms_show_ranking($args){
 	}
 	
 	$html .= '</table>';
+	$html .= '</div>';
+	
 	return $html;
 }
 ?>
